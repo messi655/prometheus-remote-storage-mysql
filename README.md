@@ -19,12 +19,12 @@ go run main.go -db-user root -db-password 1234 -db-name monitoring -db-port 7306
 ### 3. Send data to statsd_exporter
 
 ```
-echo -n "simba_metric.indosat_num_msisdn_rows_distinct.2020-08-28:3811110112|g" | nc -w 1 -u localhost 9125
+echo -n "test_metric.abc_num_msisdn_rows_distinct.2020-08-28:3811110112|g" | nc -w 1 -u localhost 9125
 ```
 
 ### 4. How to check
 
-- Go to and find simba_metric
+- Go to and find test_metric
 ```
 - StatsD Exporter: http://localhost:9102/metrics
 - Prometheus: http://localhost:9090/graph
