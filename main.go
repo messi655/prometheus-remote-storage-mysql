@@ -169,7 +169,7 @@ func write() http.Handler {
 
 		for t := range samples {
 			sampleResult := samples[t]
-			if strings.Contains(sampleResult.Metric.String(), "simba_metric") {
+			if strings.Contains(sampleResult.Metric.String(), "test_metric") {
 				s, _ := json.Marshal(sampleResult.Metric)
 				var metricResult MetricResult
 				json.Unmarshal(s, &metricResult)
