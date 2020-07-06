@@ -1,0 +1,7 @@
+mappings:
+  - match: "simba_metric.*.*"
+    name: "simba_metric"
+    labels:
+      column_name: "$1"
+      date_time: "$2"
+      

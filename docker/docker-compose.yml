@@ -1,0 +1,55 @@
+services:
+  grafana:
+    image: grafana/grafana
+    ports:
+      - 3000:3000/tcp
+    links:
+      - prometheus
+      - mysql
+    container_name: grafana
+
+  mysql:
+    image: mysql:latest
+    restart: always
+    ports:
+      - 7306:3306/tcp
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: monitoring
+      MYSQL_USER: monitoring
+      MYSQL_PASSWORD: monitoring
+    container_name: mysql
+
+  
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - 9090:9090/tcp
+    volumes:
+      - ./sample-docker-prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    links:
+      - statsd_exporter
+    container_name: prometheus
+
+  
+  statsd_exporter:
+    image: prom/statsd-exporter
+    command: "--statsd.mapping-config=/tmp/statsd_mapping.yml"
+    ports:
+      - "9102:9102"
+      - "9125:9125/udp"
+    volumes:
+      - "./statsd_mapping.yml:/tmp/statsd_mapping.yml"
+    container_name: statsd_exporter
+
+  statsd:
+    image: dockerana/statsd
+    ports:
+      - "8125:8125/udp"
+      - "8126:8126"
+    volumes:
+      - "./statsd_config.js:/src/statsd/config.js"
+    links:
+      - statsd_exporter
+    container_name: statsd
+version: '3.0'
